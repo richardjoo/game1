@@ -21,6 +21,7 @@ public class Game implements Runnable {
 	public synchronized void stop() {
 		try {
 			// join is used where the main thread to wait until all the threads are completed
+			// The join() method of a Thread instance can be used to "join" the start of a thread's execution to the end of another thread's execution so that a thread will not start running until another thread has ended. If join() is called on a Thread instance, the currently running thread will block until the Thread instance has finished executing.
 			thread.join();
 		} catch(InterruptedException e) {
 			e.printStackTrace();
