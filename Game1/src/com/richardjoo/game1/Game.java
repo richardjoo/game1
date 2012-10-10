@@ -1,7 +1,11 @@
 package com.richardjoo.game1;
 
 import java.awt.Canvas;  // We need inherit Canvas class for our Game class
+import java.awt.Color;
 import java.awt.Dimension; // Dimension class
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy; // to handle buffer
+
 import javax.swing.JFrame;  // We will be using JFrame for our game window.
 
 
@@ -58,11 +62,55 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
+	
+	// update will handle the logic
+	public void update() {
+		
+	}
+	
+	// render will handle the display
+	public void render() {
+		// buffer strategy is the key :-)
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null) {
+			// you pretty much have it at 3. rarely 2.
+			// the reason 3 = tripple buffer storage
+			// we can actually store two images now by using 3
+			createBufferStrategy(3);
+			return;
+		}
+		
+		// need to apply data to the buffers now
+		Graphics g = bs.getDrawGraphics();
+		
+		// START ----- all the graphics will be done in between these two comment lines.
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		
+		// END ----- all the graphics will be done in between these two comment lines.
+		
+		g.dispose(); // dispose of current graphics, releases all of your cpu resources
+		bs.show();
+	}
+	
 	// since we are implementing Runnable, we need run method
 	public void run() {
 		// in here, we need to loop the game so the game won't stop and keep running
 		while (running) {
-			System.out.println("Running...");
+			// Buffer Strategy
+			// in order for code to normalize the game to work properly for
+			// any computer systems, we need to split logics and controls and
+			// others.  And need timer.
+			
+			
+			// like same as tick() in more conventional way
+			// update will handle all the logics
+			// update at like 60 / sec, and render at unlimited rate
+			update(); 
+			
+			// render will handle all the graphics, display images
+			render();
 		}
 	}
 	
